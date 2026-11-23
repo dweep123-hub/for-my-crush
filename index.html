@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>A Tiny Corner For J.K. ✨</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #FFF8F6;
+            --grid-line: rgba(244, 172, 183, 0.18);
+            --blush-primary: #FF8FA3;
+            --blush-dark: #FF5D8F;
+            --blush-soft: #FFE5EC;
+            --text-cocoa: #4A3B42;
+            --text-muted: #847078;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg-cream);
+            background-image: 
+                linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+            background-size: 28px 28px;
+            color: var(--text-cocoa);
+            min-height: 100dvh;
+            overflow-x: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .handwriting {
+            font-family: 'Caveat', cursive;
+        }
+
+        /* Floating ambient background particles */
+        .floating-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .float-item {
+            position: absolute;
+            opacity: 0.45;
+            animation: floatUp linear infinite;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% {
+                opacity: 0.5;
+            }
+            85% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        /* Screen Transitions */
+        .screen {
+            display: none;
+            width: 100%;
+            max-width: 440px;
+            padding: 1.25rem;
+            z-index: 10;
+            animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: translateY(18px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Tactile Cute Buttons */
+        .btn-cute {
+            background: linear-gradient(135deg, #FF8FA3 0%, #FF758F 100%);
+            color: white;
+            font-weight: 700;
+            border-radius: 9999px;
+            box-shadow: 0 6px 0 #E05773, 0 10px 20px rgba(255, 117, 143, 0.3);
+            transition: all 0.15s ease;
+            border: 2px solid #FFF;
+        }
+
+        .btn-cute:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #E05773, 0 4px 10px rgba(255, 117, 143, 0.25);
+        }
+
+        .btn-secondary {
+            background: #FFFFFF;
+            color: var(--text-cocoa);
+            font-weight: 700;
+            border-radius: 9999px;
+            box-shadow: 0 5px 0 #E6D5DA, 0 8px 16px rgba(74, 59, 66, 0.08);
+            border: 2px solid #FFE5EC;
+            transition: all 0.15s ease;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #E6D5DA;
+        }
+
+        /* Chibi Bouncing Animation */
+        .chibi-bounce {
+            animation: chibiBounce 2.2s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        @keyframes chibiBounce {
+            0%, 100% { transform: translateY(0) scale(1, 1); }
+            45% { transform: translateY(-10px) scale(0.97, 1.03); }
+            55% { transform: translateY(-10px) scale(0.97, 1.03); }
+            90% { transform: translateY(0) scale(1.03, 0.97); }
+        }
+
+        /* Shake animation for wrong passcode */
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-2px, 0, 0); }
+            20%, 80% { transform: translate3d(4px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+            40%, 60% { transform: translate3d(6px, 0, 0); }
+        }
+
+        /* Envelope Styling & Animation */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 1.5rem auto;
+            cursor: pointer;
+            perspective: 1000px;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .envelope-body {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: #FFC2D1;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(255, 117, 143, 0.25);
+            overflow: hidden;
+            border: 3px solid #FFF;
+        }
+
+        /* Envelope Pocket Triangles */
+        .envelope-pocket {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .envelope-pocket::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid #FFB3C6;
+            border-right: 150px solid #FFB3C6;
+            border-top: 105px solid transparent;
+            border-bottom: 95px solid #FF9EBB;
+        }
+
+        .envelope-flap {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 115px solid #FF8FA3;
+            transform-origin: top center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), z-index 0.2s;
+            z-index: 4;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.08));
+        }
+
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        .wax-seal {
+            position: absolute;
+            top: 86px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 54px;
+            height: 54px;
+            background: radial-gradient(circle at 30% 30%, #FF5D8F, #C9184A);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFF0F3;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(201, 24, 74, 0.4), inset 0 2px 4px rgba(255,255,255,0.4);
+            border: 2px dashed rgba(255, 240, 243, 0.6);
+            transition: all 0.4s ease;
+        }
+
+        .envelope-wrapper.open .wax-seal {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.5);
+            pointer-events: none;
+        }
+
+        .letter-peek {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 88%;
+            height: 85%;
+            background: #FFFDFD;
+            border-radius: 12px;
+            z-index: 2;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .envelope-wrapper.open .letter-peek {
+            transform: translateX(-50%) translateY(-55px);
+        }
+
+        /* Gift Cards 3D Flip */
+        .gift-card {
+            perspective: 1000px;
+            height: 132px;
+            cursor: pointer;
+        }
+
+        .gift-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-style: preserve-3d;
+        }
+
+        .gift-card.flipped .gift-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .gift-front, .gift-back {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.85rem;
+            border: 2.5px solid #FFF;
+            box-shadow: 0 8px 20px rgba(255, 143, 163, 0.16);
+        }
+
+        .gift-front {
+            background: linear-gradient(145deg, #FFFFFF 0%, #FFF0F3 100%);
+        }
+
+        .gift-back {
+            background: linear-gradient(145deg, #FFE5EC 0%, #FFC2D1 100%);
+            transform: rotateY(180deg);
+            text-align: center;
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body class="selection:bg-pink-200">
+
+    <!-- Floating Ambient Background -->
+    <div class="floating-bg" id="floating-bg"></div>
+
+    <!-- Confetti Overlay -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Floating Audio Pill (Appears when unlocked) -->
+    <button id="music-toggle" onclick="toggleAudio()" class="hidden fixed top-4 right-4 z-40 bg-white/90 backdrop-blur-md border-2 border-pink-200 px-3.5 py-1.5 rounded-full shadow-md text-xs font-bold text-pink-600 flex items-center gap-1.5 hover:scale-105 transition">
+        <span id="music-icon">🎵</span>
+        <span id="music-label">Play Vibe</span>
+    </button>
+
+    <!-- ==========================================
+         SCREEN 1: SECRET PASSCODE LOCK SCREEN
+    =========================================== -->
+    <section id="screen-1" class="screen active">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-7 shadow-xl border-2 border-pink-100 w-full text-center relative">
+            
+            <!-- Cute Chibi Cat SVG -->
+            <div class="w-28 h-28 mx-auto mb-2 chibi-bounce" id="lock-mascot">
+                <svg viewBox="0 0 140 140" class="w-full h-full drop-shadow-sm">
+                    <!-- Ears -->
+                    <path d="M32 52 L24 20 L54 38 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3.5" stroke-linejoin="round"/>
+                    <path d="M108 52 L116 20 L86 38 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3.5" stroke-linejoin="round"/>
+                    <path d="M35 47 L30 27 L49 39 Z" fill="#FFB3C6"/>
+                    <path d="M105 47 L110 27 L91 39 Z" fill="#FFB3C6"/>
+                    <!-- Head -->
+                    <ellipse cx="70" cy="74" rx="46" ry="38" fill="#FFF" stroke="#4A3B42" stroke-width="3.5"/>
+                    <!-- Blush -->
+                    <ellipse cx="42" cy="80" rx="8" ry="5" fill="#FF8FA3" opacity="0.65"/>
+                    <ellipse cx="98" cy="80" rx="8" ry="5" fill="#FF8FA3" opacity="0.65"/>
+                    <!-- Eyes (Normal cute) -->
+                    <g id="cat-eyes-happy">
+                        <circle cx="50" cy="69" r="5" fill="#4A3B42"/>
+                        <circle cx="48.5" cy="67.5" r="1.8" fill="#FFF"/>
+                        <circle cx="90" cy="69" r="5" fill="#4A3B42"/>
+                        <circle cx="88.5" cy="67.5" r="1.8" fill="#FFF"/>
+                    </g>
+                    <!-- Eyes (Grumpy - hidden initially) -->
+                    <g id="cat-eyes-grumpy" class="hidden">
+                        <path d="M42 64 L56 71" stroke="#4A3B42" stroke-width="3.5" stroke-linecap="round"/>
+                        <path d="M98 64 L84 71" stroke="#4A3B42" stroke-width="3.5" stroke-linecap="round"/>
+                        <circle cx="50" cy="72" r="4" fill="#4A3B42"/>
+                        <circle cx="90" cy="72" r="4" fill="#4A3B42"/>
+                    </g>
+                    <!-- Nose & Mouth -->
+                    <path d="M67 77 L73 77 L70 81 Z" fill="#FF8FA3"/>
+                    <path d="M62 84 Q66 89 70 84 Q74 89 78 84" fill="none" stroke="#4A3B42" stroke-width="2.8" stroke-linecap="round"/>
+                    <!-- Little Lock Badge -->
+                    <rect x="57" y="102" width="26" height="20" rx="5" fill="#FF8FA3" stroke="#4A3B42" stroke-width="2.5"/>
+                    <path d="M63 102 V96 A7 7 0 0 1 77 96 V102" fill="none" stroke="#4A3B42" stroke-width="2.5"/>
+                    <circle cx="70" cy="112" r="2.5" fill="#FFF"/>
+                </svg>
+            </div>
+
+            <span class="inline-block bg-pink-100 text-pink-600 text-xs font-bold px-3 py-1 rounded-full mb-2">
+                🔒 Long-Distance Capsule • Noida Edition
+            </span>
+
+            <h1 class="text-xl sm:text-2xl font-bold text-[#4A3B42] leading-snug mb-1.5">
+                Sent All The Way To Noida, Just For You ✨
+            </h1>
+            <p class="text-xs sm:text-sm text-[#847078] mb-5 leading-relaxed">
+                Miles away, zero special occasion—just wanted to build a tiny corner of the internet to make you smile.
+            </p>
+
+            <!-- Hint Box -->
+            <div class="bg-pink-50/90 border border-pink-200 rounded-2xl p-3 mb-4 text-xs font-semibold text-pink-700">
+                💡 Hint: The two magic initials (2 letters)
+            </div>
+
+            <!-- Passcode Input -->
+            <div class="flex flex-col items-center gap-3">
+                <input 
+                    type="text" 
+                    id="passcode-input" 
+                    maxlength="2" 
+                    placeholder="• •" 
+                    autocomplete="off"
+                    class="w-36 text-center text-2xl font-bold tracking-[0.4em] uppercase bg-white border-2 border-pink-200 focus:border-pink-400 focus:outline-none rounded-2xl py-2.5 text-[#4A3B42] shadow-inner transition"
+                >
+                
+                <p id="passcode-error" class="hidden text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200">
+                    Wrong! Try again, Madam Overthinker 😜
+                </p>
+
+                <button onclick="checkPasscode()" class="btn-cute w-full py-3.5 text-base mt-1">
+                    Unlock Surprise 🗝️
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 2: PLAYFUL YES / NO TRAP
+    =========================================== -->
+    <section id="screen-2" class="screen">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-6 sm:p-8 shadow-xl border-2 border-pink-100 w-full text-center relative">
+            
+            <!-- Cute Bear Holding Flower SVG -->
+            <div id="bear-happy-box" class="w-36 h-36 mx-auto mb-3 chibi-bounce">
+                <svg viewBox="0 0 160 150" class="w-full h-full">
+                    <!-- Bear Ears -->
+                    <circle cx="42" cy="40" r="16" fill="#D4A373" stroke="#4A3B42" stroke-width="3.5"/>
+                    <circle cx="42" cy="40" r="8" fill="#FAEDCD"/>
+                    <circle cx="118" cy="40" r="16" fill="#D4A373" stroke="#4A3B42" stroke-width="3.5"/>
+                    <circle cx="118" cy="40" r="8" fill="#FAEDCD"/>
+                    <!-- Bear Head -->
+                    <ellipse cx="80" cy="72" rx="48" ry="40" fill="#D4A373" stroke="#4A3B42" stroke-width="3.5"/>
+                    <!-- Muzzle -->
+                    <ellipse cx="80" cy="82" rx="18" ry="13" fill="#FAEDCD"/>
+                    <!-- Blush -->
+                    <ellipse cx="48" cy="76" rx="8" ry="5" fill="#FF8FA3" opacity="0.7"/>
+                    <ellipse cx="112" cy="76" rx="8" ry="5" fill="#FF8FA3" opacity="0.7"/>
+                    <!-- Eyes -->
+                    <circle cx="58" cy="65" r="5" fill="#4A3B42"/>
+                    <circle cx="56.5" cy="63.5" r="1.8" fill="#FFF"/>
+                    <circle cx="102" cy="65" r="5" fill="#4A3B42"/>
+                    <circle cx="100.5" cy="63.5" r="1.8" fill="#FFF"/>
+                    <!-- Nose & Smile -->
+                    <ellipse cx="80" cy="77" rx="5" ry="3.5" fill="#4A3B42"/>
+                    <path d="M73 84 Q80 90 87 84" fill="none" stroke="#4A3B42" stroke-width="2.8" stroke-linecap="round"/>
+                    <!-- Flower Stem & Petals -->
+                    <path d="M116 135 Q122 110 128 92" fill="none" stroke="#52B788" stroke-width="4" stroke-linecap="round"/>
+                    <circle cx="128" cy="84" r="7" fill="#FF8FA3"/>
+                    <circle cx="136" cy="90" r="7" fill="#FF8FA3"/>
+                    <circle cx="132" cy="99" r="7" fill="#FF8FA3"/>
+                    <circle cx="122" cy="98" r="7" fill="#FF8FA3"/>
+                    <circle cx="120" cy="89" r="7" fill="#FF8FA3"/>
+                    <circle cx="128" cy="92" r="5.5" fill="#FFD166"/>
+                    <!-- Little Paws -->
+                    <ellipse cx="62" cy="116" rx="12" ry="10" fill="#D4A373" stroke="#4A3B42" stroke-width="3"/>
+                    <ellipse cx="104" cy="116" rx="12" ry="10" fill="#D4A373" stroke="#4A3B42" stroke-width="3"/>
+                </svg>
+            </div>
+
+            <!-- Angry Kitty Trap State (Hidden initially) -->
+            <div id="kitty-angry-box" class="hidden w-36 h-36 mx-auto mb-3 shake">
+                <svg viewBox="0 0 140 140" class="w-full h-full">
+                    <path d="M32 52 L22 18 L54 38 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3.5" stroke-linejoin="round"/>
+                    <path d="M108 52 L118 18 L86 38 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3.5" stroke-linejoin="round"/>
+                    <ellipse cx="70" cy="76" rx="46" ry="38" fill="#FFF" stroke="#4A3B42" stroke-width="3.5"/>
+                    <!-- Angry Puff Symbol -->
+                    <path d="M102 32 Q106 38 112 36 M106 26 Q108 32 114 30" stroke="#FF4D6D" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <!-- Angry Eyes -->
+                    <path d="M40 62 L58 72" stroke="#4A3B42" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M100 62 L82 72" stroke="#4A3B42" stroke-width="4" stroke-linecap="round"/>
+                    <circle cx="49" cy="74" r="4.5" fill="#4A3B42"/>
+                    <circle cx="91" cy="74" r="4.5" fill="#4A3B42"/>
+                    <!-- Grumpy Frown -->
+                    <path d="M60 92 Q70 82 80 92" fill="none" stroke="#4A3B42" stroke-width="3.2" stroke-linecap="round"/>
+                    <ellipse cx="40" cy="82" rx="8" ry="5" fill="#FF4D6D" opacity="0.5"/>
+                    <ellipse cx="100" cy="82" rx="8" ry="5" fill="#FF4D6D" opacity="0.5"/>
+                </svg>
+            </div>
+
+            <h2 id="screen2-title" class="text-xl sm:text-2xl font-bold text-[#4A3B42] mb-2">
+                I coded a little something for you... Wanna see? 🌸
+            </h2>
+            <p id="screen2-sub" class="text-xs sm:text-sm text-[#847078] mb-6">
+                (Promise it takes less than 60 seconds)
+            </p>
+
+            <!-- Normal Buttons -->
+            <div id="screen2-btns-normal" class="flex items-center justify-center gap-4">
+                <button onclick="goToScreen(3)" class="btn-cute px-8 py-3.5 text-base flex-1">
+                    Yes! ✨
+                </button>
+                <button onclick="triggerNoTrap()" id="no-btn" class="btn-secondary px-7 py-3.5 text-base">
+                    No
+                </button>
+            </div>
+
+            <!-- Angry Trap Button -->
+            <div id="screen2-btns-angry" class="hidden">
+                <button onclick="resetNoTrap()" class="btn-cute w-full py-3.5 text-base">
+                    Okay sorry, take me back! 🙈
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 3: INTERACTIVE ENVELOPE & NOTE
+    =========================================== -->
+    <section id="screen-3" class="screen">
+        <!-- Envelope View (Before opening) -->
+        <div id="envelope-stage" class="w-full text-center">
+            <span class="inline-block bg-white/90 border border-pink-200 text-pink-600 text-xs font-bold px-3.5 py-1 rounded-full shadow-sm mb-2">
+                💌 Special Delivery
+            </span>
+            <h2 class="text-xl font-bold text-[#4A3B42] mb-1">Tap the wax seal to open</h2>
+            <p class="text-xs text-[#847078]">Sealed with zero pressure & good vibes</p>
+
+            <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()">
+                <div class="envelope-body">
+                    <div class="letter-peek">
+                        <span class="handwriting text-2xl text-pink-500 font-bold">Hey Cutie ✨</span>
+                        <span class="text-[11px] text-gray-400 mt-1">Opening note...</span>
+                    </div>
+                    <div class="envelope-pocket"></div>
+                </div>
+                <div class="envelope-flap"></div>
+                <div class="wax-seal">J.K.</div>
+            </div>
+        </div>
+
+        <!-- Full Letter View (Reveals smoothly after envelope opens) -->
+        <div id="letter-full" class="hidden bg-white/95 backdrop-blur-md rounded-3xl p-6 sm:p-7 shadow-xl border-2 border-pink-100 w-full relative">
+            <!-- Top Decorative Ribbon -->
+            <div class="flex items-center justify-between border-b border-pink-100 pb-3 mb-4">
+                <span class="handwriting text-3xl font-bold text-[#FF5D8F]">Hey Cutie ✨</span>
+                <span class="text-xs bg-pink-50 text-pink-600 font-bold px-2.5 py-1 rounded-full border border-pink-200">
+                    To Noida 🕊️🧸
+                </span>
+            </div>
+
+            <div class="space-y-3.5 text-sm sm:text-[15px] leading-relaxed text-[#4A3B42] font-medium">
+                <p>
+                    Even though Noida feels way too far from here, talking to you easily bridges the distance and makes my day ten times better.
+                </p>
+                <p>
+                    I know you're a <span class="bg-pink-100/80 text-pink-700 font-bold px-1.5 py-0.5 rounded-md">free bird</span> and there's zero rush or pressure about anything. I just genuinely appreciate your vibe, your energy, and the comfort you bring.
+                </p>
+                <p>
+                    Also, since I can't actually be there, I'm officially deputizing your <span class="bg-amber-100/80 text-amber-800 font-bold px-1.5 py-0.5 rounded-md">teddy bear 🧸</span> to keep you extra cozy and safe while you sleep!
+                </p>
+            </div>
+
+            <!-- Sweet Non-Pushy Punjabi Compliment -->
+            <div class="mt-4 pt-3 border-t border-dashed border-pink-200 text-center">
+                <p class="text-xs sm:text-sm font-bold text-pink-600">
+                    ਤੇਰੀ ਮੁਸਕਾਨ ਸਭ ਤੋਂ ਸੋਹਣੀ ਹੈ, ਹਮੇਸ਼ਾ ਇੱਦਾਂ ਹੀ ਖੁਸ਼ ਰਿਹਾ ਕਰ ✨
+                </p>
+                <p class="text-[11px] text-[#847078] mt-0.5 italic">
+                    (Your smile is the prettiest—always stay happy like this)
+                </p>
+            </div>
+
+            <button onclick="goToScreen(4)" class="btn-cute w-full py-3.5 text-sm sm:text-base mt-5">
+                Wait, there's a little more... 🎁
+            </button>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 4: VIRTUAL COUPONS / GIFT CARDS
+    =========================================== -->
+    <section id="screen-4" class="screen">
+        <div class="bg-white/90 backdrop-blur-md rounded-3xl p-5 sm:p-6 shadow-xl border-2 border-pink-100 w-full text-center">
+            <span class="inline-block bg-pink-100 text-pink-600 text-xs font-bold px-3 py-1 rounded-full mb-1.5">
+                🎟️ Noida Care Package
+            </span>
+            <h2 class="text-xl font-bold text-[#4A3B42] mb-1">Tap to unwrap your 3 vouchers</h2>
+            <p class="text-xs text-[#847078] mb-4">Valid across all miles, zero expiry date</p>
+
+            <div class="space-y-3 mb-5">
+                <!-- Gift 1: Personalized Cozy Teddy Bear Voucher -->
+                <div class="gift-card" onclick="flipCard(this, true)">
+                    <div class="gift-card-inner">
+                        <div class="gift-front">
+                            <span class="text-3xl mb-1">🧸</span>
+                            <span class="font-bold text-sm text-[#4A3B42]">Voucher #1</span>
+                            <span class="text-[11px] text-pink-500 font-semibold">Tap to reveal</span>
+                        </div>
+                        <div class="gift-back">
+                            <span class="text-2xl mb-0.5">🧸💤</span>
+                            <h3 class="font-bold text-sm text-[#4A3B42]">Cozy Teddy Bear Pass</h3>
+                            <p class="text-xs text-[#5E4B52] mt-0.5 leading-snug">
+                                Official permission to hug your teddy extra tight in Noida & sleep peacefully with zero stress.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gift 2 -->
+                <div class="gift-card" onclick="flipCard(this, false)">
+                    <div class="gift-card-inner">
+                        <div class="gift-front">
+                            <span class="text-3xl mb-1">🎁</span>
+                            <span class="font-bold text-sm text-[#4A3B42]">Voucher #2</span>
+                            <span class="text-[11px] text-pink-500 font-semibold">Tap to reveal</span>
+                        </div>
+                        <div class="gift-back">
+                            <span class="text-2xl mb-0.5">🧠</span>
+                            <h3 class="font-bold text-sm text-[#4A3B42]">Overthinking Pass</h3>
+                            <p class="text-xs text-[#5E4B52] mt-0.5 leading-snug">
+                                Good for 1 free late-night rant session where I just listen and hype you up.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gift 3 -->
+                <div class="gift-card" onclick="flipCard(this, false)">
+                    <div class="gift-card-inner">
+                        <div class="gift-front">
+                            <span class="text-3xl mb-1">🎁</span>
+                            <span class="font-bold text-sm text-[#4A3B42]">Voucher #3</span>
+                            <span class="text-[11px] text-pink-500 font-semibold">Tap to reveal</span>
+                        </div>
+                        <div class="gift-back">
+                            <span class="text-2xl mb-0.5">🎮</span>
+                            <h3 class="font-bold text-sm text-[#4A3B42]">Childhood Game Night</h3>
+                            <p class="text-xs text-[#5E4B52] mt-0.5 leading-snug">
+                                Redeemable whenever we finally hang out to play silly games and just laugh.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="goToScreen(5)" class="btn-cute w-full py-3.5 text-sm sm:text-base">
+                Finish Up ✨
+            </button>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SCREEN 5: FINAL SIGN-OFF SCREEN
+    =========================================== -->
+    <section id="screen-5" class="screen">
+        <div class="bg-white/95 backdrop-blur-md rounded-3xl p-7 shadow-xl border-2 border-pink-100 w-full text-center relative">
+            
+            <!-- Cute Chibi Cat Hugging Cozy Sleeping Teddy Bear SVG -->
+            <div class="w-40 h-36 mx-auto mb-3 chibi-bounce">
+                <svg viewBox="0 0 180 145" class="w-full h-full">
+                    <!-- Floating Sleepy Zzz's & Sparkles -->
+                    <text x="134" y="34" fill="#FF8FA3" font-size="13" font-weight="bold" font-family="Quicksand">z</text>
+                    <text x="144" y="24" fill="#FFB3C6" font-size="16" font-weight="bold" font-family="Quicksand">Z</text>
+                    <path d="M36 22 L38 28 L44 30 L38 32 L36 38 L34 32 L28 30 L34 28 Z" fill="#FFD166"/>
+
+                    <!-- Cozy Teddy Bear (Right/Center) -->
+                    <circle cx="96" cy="46" r="13" fill="#C68B59" stroke="#4A3B42" stroke-width="3"/>
+                    <circle cx="96" cy="46" r="6.5" fill="#E6CCB2"/>
+                    <circle cx="138" cy="46" r="13" fill="#C68B59" stroke="#4A3B42" stroke-width="3"/>
+                    <circle cx="138" cy="46" r="6.5" fill="#E6CCB2"/>
+                    <!-- Teddy Body -->
+                    <ellipse cx="117" cy="108" rx="30" ry="26" fill="#C68B59" stroke="#4A3B42" stroke-width="3"/>
+                    <ellipse cx="117" cy="110" rx="17" ry="15" fill="#E6CCB2"/>
+                    <!-- Teddy Head -->
+                    <ellipse cx="117" cy="70" rx="34" ry="28" fill="#C68B59" stroke="#4A3B42" stroke-width="3"/>
+                    <ellipse cx="117" cy="78" rx="13" ry="10" fill="#E6CCB2"/>
+                    <!-- Teddy Happy Closed Eyes -->
+                    <path d="M101 66 Q105 61 109 66" fill="none" stroke="#4A3B42" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M125 66 Q129 61 133 66" fill="none" stroke="#4A3B42" stroke-width="2.5" stroke-linecap="round"/>
+                    <ellipse cx="117" cy="74" rx="4" ry="3" fill="#4A3B42"/>
+                    <path d="M112 80 Q117 84 122 80" fill="none" stroke="#4A3B42" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Teddy Blush -->
+                    <ellipse cx="96" cy="74" rx="5.5" ry="3.5" fill="#FF8FA3" opacity="0.7"/>
+                    <ellipse cx="138" cy="74" rx="5.5" ry="3.5" fill="#FF8FA3" opacity="0.7"/>
+
+                    <!-- Cute Chibi Kitty Hugging the Teddy (Left) -->
+                    <path d="M40 66 L34 44 L54 56 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3" stroke-linejoin="round"/>
+                    <path d="M78 66 L84 44 L64 56 Z" fill="#FFF" stroke="#4A3B42" stroke-width="3" stroke-linejoin="round"/>
+                    <ellipse cx="59" cy="83" rx="28" ry="24" fill="#FFF" stroke="#4A3B42" stroke-width="3"/>
+                    <!-- Kitty Happy Eyes -->
+                    <path d="M46 79 Q50 74 54 79" fill="none" stroke="#4A3B42" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M64 79 Q68 74 72 79" fill="none" stroke="#4A3B42" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M55 87 Q59 91 63 87" fill="none" stroke="#4A3B42" stroke-width="2.3" stroke-linecap="round"/>
+                    <ellipse cx="43" cy="85" rx="5" ry="3" fill="#FF8FA3" opacity="0.75"/>
+                    <!-- Kitty Hug Paw Reaching Across Teddy -->
+                    <ellipse cx="89" cy="104" rx="14" ry="9" transform="rotate(-15 89 104)" fill="#FFF" stroke="#4A3B42" stroke-width="3"/>
+
+                    <!-- Floating Heart Above -->
+                    <path d="M84 32 C81 27, 74 28, 74 33 C74 38, 84 44, 84 44 C84 44, 94 38, 94 33 C94 28, 87 27, 84 32 Z" fill="#FF5D8F"/>
+                </svg>
+            </div>
+
+            <h2 class="text-xl sm:text-2xl font-bold text-[#4A3B42] mb-2">
+                Sending Good Vibes to Noida! 🕊️🧸
+            </h2>
+            <p class="text-sm sm:text-base text-[#5E4B52] leading-relaxed mb-4">
+                Distance is just miles—I just wanted to put a little effort into making your day 1% brighter. Hug your teddy tight & keep smiling!
+            </p>
+
+            <div class="handwriting text-3xl font-bold text-[#FF5D8F] mb-6">
+                — Dweep
+            </div>
+
+            <button onclick="replaySurprise()" class="btn-secondary w-full py-3 text-sm">
+                Replay Surprise ↺
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // ==========================================
+        // 1. AMBIENT FLOATING PARTICLES
+        // ==========================================
+        function initFloatingBackground() {
+            const container = document.getElementById('floating-bg');
+            const icons = ['✨', '🌸', '🤍', '🕊️', '💫', '🌷'];
+            const count = 16;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.className = 'float-item';
+                el.textContent = icons[i % icons.length];
+                el.style.left = Math.random() * 95 + 'vw';
+                el.style.fontSize = (Math.random() * 12 + 12) + 'px';
+                el.style.animationDuration = (Math.random() * 12 + 12) + 's';
+                el.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(el);
+            }
+        }
+        initFloatingBackground();
+
+        // ==========================================
+        // 2. SCREEN NAVIGATION & LOGIC
+        // ==========================================
+        function goToScreen(num) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(`screen-${num}`);
+            if (target) {
+                target.classList.add('active');
+            }
+            if (num === 5) {
+                launchConfetti();
+            }
+        }
+
+        // Screen 1: Passcode Check
+        const passInput = document.getElementById('passcode-input');
+        passInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') checkPasscode();
+        });
+
+        function checkPasscode() {
+            const val = passInput.value.trim().toUpperCase();
+            const errorMsg = document.getElementById('passcode-error');
+            const mascot = document.getElementById('lock-mascot');
+            const happyEyes = document.getElementById('cat-eyes-happy');
+            const grumpyEyes = document.getElementById('cat-eyes-grumpy');
+
+            if (val === 'JK') {
+                errorMsg.classList.add('hidden');
+                happyEyes.classList.remove('hidden');
+                grumpyEyes.classList.add('hidden');
+                
+                // Show audio pill & start soft music box automatically on user click
+                document.getElementById('music-toggle').classList.remove('hidden');
+                startAudio();
+
+                launchConfetti();
+                setTimeout(() => goToScreen(2), 450);
+            } else {
+                errorMsg.classList.remove('hidden');
+                happyEyes.classList.add('hidden');
+                grumpyEyes.classList.remove('hidden');
+                
+                mascot.classList.remove('shake');
+                void mascot.offsetWidth; // trigger reflow
+                mascot.classList.add('shake');
+                passInput.value = '';
+                passInput.focus();
+            }
+        }
+
+        // Screen 2: Playful "No" Trap
+        function triggerNoTrap() {
+            document.getElementById('bear-happy-box').classList.add('hidden');
+            document.getElementById('kitty-angry-box').classList.remove('hidden');
+            
+            document.getElementById('screen2-title').textContent = "HOW DARE YOU?! 😤";
+            document.getElementById('screen2-sub').textContent = "Go back and click Yes right now!";
+            
+            document.getElementById('screen2-btns-normal').classList.add('hidden');
+            document.getElementById('screen2-btns-angry').classList.remove('hidden');
+        }
+
+        function resetNoTrap() {
+            document.getElementById('kitty-angry-box').classList.add('hidden');
+            document.getElementById('bear-happy-box').classList.remove('hidden');
+            
+            document.getElementById('screen2-title').textContent = "I coded a little something for you... Wanna see? 🌸";
+            document.getElementById('screen2-sub').textContent = "(Good choice! Now tap Yes ✨)";
+            
+            document.getElementById('screen2-btns-angry').classList.add('hidden');
+            document.getElementById('screen2-btns-normal').classList.remove('hidden');
+        }
+
+        // Screen 3: Interactive Envelope
+        let envelopeOpened = false;
+        function openEnvelope() {
+            if (envelopeOpened) return;
+            envelopeOpened = true;
+
+            const env = document.getElementById('envelope');
+            env.classList.add('open');
+
+            // Play gentle chime on open
+            playChime();
+
+            setTimeout(() => {
+                document.getElementById('envelope-stage').classList.add('hidden');
+                const fullLetter = document.getElementById('letter-full');
+                fullLetter.classList.remove('hidden');
+                fullLetter.style.animation = 'popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+            }, 950);
+        }
+
+        // Screen 4: Gift Card Flip
+        function flipCard(cardEl, withConfetti) {
+            const wasFlipped = cardEl.classList.contains('flipped');
+            cardEl.classList.toggle('flipped');
+            if (!wasFlipped) {
+                playChime();
+                if (withConfetti) {
+                    launchConfetti();
+                }
+            }
+        }
+
+        // Replay Everything
+        function replaySurprise() {
+            envelopeOpened = false;
+            document.getElementById('envelope').classList.remove('open');
+            document.getElementById('envelope-stage').classList.remove('hidden');
+            document.getElementById('letter-full').classList.add('hidden');
+            document.querySelectorAll('.gift-card').forEach(c => c.classList.remove('flipped'));
+            resetNoTrap();
+            goToScreen(2);
+        }
+
+        // ==========================================
+        // 3. WEB AUDIO API (GENTLE LO-FI MUSIC BOX)
+        // ==========================================
+        let audioCtx = null;
+        let isPlaying = false;
+        let melodyInterval = null;
+
+        // Warm pentatonic music-box notes (C major 9th / F major 7th feel)
+        const notes = [523.25, 659.25, 783.99, 987.77, 880.00, 783.99, 659.25, 587.33];
+        let noteIdx = 0;
+
+        function startAudio() {
+            if (isPlaying) return;
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                isPlaying = true;
+                updateMusicUI();
+
+                playSoftNote(notes[noteIdx]);
+                noteIdx = (noteIdx + 1) % notes.length;
+
+                melodyInterval = setInterval(() => {
+                    if (!isPlaying) return;
+                    playSoftNote(notes[noteIdx]);
+                    noteIdx = (noteIdx + 1) % notes.length;
+                }, 650);
+            } catch (e) {
+                // Fallback silently if browser blocks audio
+            }
+        }
+
+        function stopAudio() {
+            isPlaying = false;
+            clearInterval(melodyInterval);
+            updateMusicUI();
+        }
+
+        function toggleAudio() {
+            if (isPlaying) {
+                stopAudio();
+            } else {
+                startAudio();
+            }
+        }
+
+        function updateMusicUI() {
+            const icon = document.getElementById('music-icon');
+            const label = document.getElementById('music-label');
+            if (isPlaying) {
+                icon.textContent = '🎶';
+                label.textContent = 'Vibe On';
+            } else {
+                icon.textContent = '🔇';
+                label.textContent = 'Muted';
+            }
+        }
+
+        function playSoftNote(freq) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.045, audioCtx.currentTime + 0.08);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.4);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 1.45);
+        }
+
+        function playChime() {
+            try {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                playSoftNote(783.99);
+                setTimeout(() => playSoftNote(1046.50), 110);
+            } catch (e) {}
+        }
+
+        // ==========================================
+        // 4. PASTEL CONFETTI BURST
+        // ==========================================
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animId = null;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function launchConfetti() {
+            const colors = ['#FF8FA3', '#FFB3C6', '#FFD166', '#CDB4DB', '#BDE0FE', '#FF5D8F'];
+            for (let i = 0; i < 65; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2 + 40,
+                    vx: (Math.random() - 0.5) * 14,
+                    vy: (Math.random() - 0.85) * 14,
+                    size: Math.random() * 7 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    vRot: (Math.random() - 0.5) * 10,
+                    life: 1
+                });
+            }
+            if (!animId) animateConfetti();
+        }
+
+        function animateConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, idx) => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.35; // gravity
+                p.vx *= 0.98;
+                p.rot += p.vRot;
+                p.life -= 0.014;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate((p.rot * Math.PI) / 180);
+                ctx.globalAlpha = Math.max(0, p.life);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.65);
+                ctx.restore();
+
+                if (p.life <= 0) particles.splice(idx, 1);
+            });
+
+            if (particles.length > 0) {
+                animId = requestAnimationFrame(animateConfetti);
+            } else {
+                animId = null;
+            }
+        }
+    </script>
+</body>
+</html>
